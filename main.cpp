@@ -27,7 +27,12 @@ int main(int argc, char** argv){
     Matrix4 projectionMatrix(1);
     float hW = WIDTH / 2;
     float hH = HEIGHT / 2;
-    projectionMatrix.setOrthoganalProjectionMatrix(-hW, hW, -hH, hH);
+    float hN = -1; //near limit
+    float hF = 1000; //far limit
+
+    //projectionMatrix.setOrthoganalProjectionMatrix(-hW, hW, -hH, hH);
+    projectionMatrix.setPerspectiveProjectionMatrix(-hW, hW, -hH, hH, hN, hF);
+
     glUniformMatrix4fv(projectionMatId, 1, false, &projectionMatrix.m[0][0]);
     float vertices[] = {
         -1, -1,
@@ -66,6 +71,8 @@ int main(int argc, char** argv){
         }
         glClear(GL_COLOR_BUFFER_BIT);
 
+        modelMatrix.rotateX(rot);
+        modelMatrix.rotateY(rot);
         modelMatrix.rotateZ(rot);
         
         glUniformMatrix4fv(modelMatId, 1, false, &modelMatrix.m[0][0]);
